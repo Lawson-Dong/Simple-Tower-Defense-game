@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tower Defense Game</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .game-container {
+            display: flex;
+            gap: 20px;
+            max-width: 1200px;
+            width: 100%;
+        }
+        
+        .game-board {
+            flex: 1;
+            background-color: #fff;
+            border: 2px solid #333;
+            position: relative;
+            overflow: hidden;
+            width: 800px;
+            height: 600px;
+        }
+        
+        .game-info {
+            width: 200px;
+            background-color: #fff;
+            border: 2px solid #333;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        
+        .wave-info, .tower-info {
+            margin-bottom: 20px;
+        }
+        
+        .tower-selection {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .tower-btn {
+            width: 60px;
+            height: 60px;
+            border: 2px solid #333;
+            border-radius: 5px;
+            background-color: #e0e0e0;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+        
+        .tower-btn:hover {
+            background-color: #d0d0d0;
+        }
+        
+        .tower-btn.selected {
+            border-color: #00ff00;
+            background-color: #c0e0c0;
+        }
+        
+        .tower {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background-color: #ff6347;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .enemy {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-color: #800080;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .projectile {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background-color: #ff0;
+            border-radius: 50%;
+        }
+        
+        .path {
+            position: absolute;
+            background-color: #888;
+            z-index: 0;
+        }
+        
+        .start-point, .end-point {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .start-point {
+            background-color: #008000;
+        }
+        
+        .end-point {
+            background-color: #ff0000;
+        }
+        
+        .game-over, .game-win {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 40px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 24px;
+            z-index: 100;
+        }
+        
+        .btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background-color: #45a049;
+        }
+        
+        .level-selection {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .level-btn {
+            margin: 0 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Tower Defense Game</h1>
+    <div class="level-selection">
+        <h3>选择关卡</h3>
+        <button class="btn level-btn" data-level="0">关卡 1</button>
+        <button class="btn level-btn" data-level="1">关卡 2</button>
+    </div>
+    <div class="game-container">
+        <div class="game-board" id="gameBoard">
+            <div class="start-point" style="top: 100px; left: 50px;">Start</div>
+            <div class="end-point" style="top: 500px; left: 750px;">End</div>
+        </div>
+        <div class="game-info">
+            <div class="wave-info">
+                <h3>Wave: <span id="waveCount">1</span></h3>
+                <h3>Enemies: <span id="enemyCount">0</span></h3>
+                <h3>Health: <span id="health">10</span></h3>
+                <h3>Gold: <span id="gold">100</span></h3>
+            </div>
+            <div class="tower-info">
+                <h3>Towers</h3>
+                <div class="tower-selection">
+                    <div class="tower-btn" data-type="basic" data-cost="50">
+                        <span>Basic</span>
+                        <span>50G</span>
+                    </div>
+                    <div class="tower-btn" data-type="fast" data-cost="100">
+                        <span>Fast</span>
+                        <span>100G</span>
+                    </div>
+                    <div class="tower-btn" data-type="strong" data-cost="150">
+                        <span>Strong</span>
+                        <span>150G</span>
+                    </div>
+                </div>
+            </div>
+            <button class="btn" id="startWave">Start Wave</button>
+        </div>
+    </div>
+    
+    <script src="game.js"></script>
+</body>
+</html>
