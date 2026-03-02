@@ -1,62 +1,85 @@
 # Tower Defense Game
 
-一个简单的塔防游戏，使用HTML、CSS和JavaScript实现。
+A tower defense game built with HTML, CSS, and JavaScript, featuring two different difficulty levels, multiple tower types, and enemy types.
 
-## 游戏功能
+## Game Features
 
-- 三种类型的塔：基础塔、快速塔和强力塔
-- 三种类型的敌人：基础敌人、快速敌人和强力敌人
-- 10波敌人攻击
-- 金币系统，用于购买塔
-- 生命值系统，敌人到达终点会减少生命值
-- 游戏胜利和失败条件
+- **Two Levels**: Different path layouts and difficulty settings
+- **Three Tower Types**: Basic, Fast, and Strong towers
+- **Three Enemy Types**: Basic, Fast, and Strong enemies
+- **10 Waves of Enemies**: Enemy count increases with each wave
+- **Gold System**: Earn gold by defeating enemies to purchase towers
+- **Health System**: Enemies reaching the end reduce health points
+- **Win/Lose Conditions**: Win by completing 10 waves, lose when health reaches 0
 
-## 如何运行
+## How to Run
 
-1. 直接在浏览器中打开 `index.html` 文件
-2. 或者使用本地服务器运行：
-   - 安装依赖：`npm install`
-   - 启动服务器：`npm start`
-   - 在浏览器中访问 `http://localhost:3000`
+### Method 1: Direct Run
+1. Download the project files to your local machine
+2. Open `index.html` in your browser
 
-## 如何玩
+### Method 2: Using Node.js Server (Optional)
+1. Ensure Node.js is installed
+2. Install dependencies: `npm install`
+3. Start the server: `npm start`
+4. Visit `http://localhost:3000` in your browser
 
-1. 点击右侧的塔类型按钮选择要建造的塔
-2. 在游戏区域点击放置塔（注意不能放在路径上）
-3. 点击 "Start Wave" 按钮开始一波敌人攻击
-4. 消灭敌人获得金币，用金币购买更多塔
-5. 阻止敌人到达终点，保护你的基地
-6. 完成10波攻击获得胜利
+## How to Play
 
-## 塔的类型
+1. **Select Level**: Click the level buttons at the top to choose the level you want to play
+2. **Select Tower Type**: Click the tower type buttons on the right to select the tower you want to build
+3. **Place Tower**: Click on the game area to place the tower (note: cannot be placed on the path)
+4. **Start Wave**: Click the "Start Wave" button to begin a wave of enemies
+5. **Upgrade Strategy**: Earn gold by defeating enemies and use it to purchase more towers
+6. **Protect Base**: Prevent enemies from reaching the end to protect your base
+7. **Complete Level**: Win by completing all 10 waves
 
-- **基础塔**：价格50金币，伤害10，攻击范围100，攻击速度1000ms
-- **快速塔**：价格100金币，伤害5，攻击范围80，攻击速度500ms
-- **强力塔**：价格150金币，伤害20，攻击范围120，攻击速度1500ms
+## Tower Types
 
-## 敌人的类型
+| Tower Type | Cost | Damage | Range | Attack Speed |
+|------------|------|--------|-------|-------------|
+| Basic      | 50 Gold | 20 | 100 | 1000ms |
+| Fast       | 100 Gold | 15 | 80 | 500ms |
+| Strong     | 150 Gold | 40 | 120 | 1500ms |
 
-- **基础敌人**：生命值50，速度1，奖励10金币
-- **快速敌人**：生命值30，速度2，奖励15金币
-- **强力敌人**：生命值100，速度0.5，奖励25金币
+## Enemy Types
 
-## 游戏规则
+| Enemy Type | Health | Speed | Gold Reward |
+|------------|--------|-------|-------------|
+| Basic      | 50 | 1 | 10 Gold |
+| Fast       | 30 | 2 | 15 Gold |
+| Strong     | 100 | 0.5 | 25 Gold |
 
-- 初始生命值：10
-- 初始金币：100
-- 每波敌人数量：波次 × 5
-- 敌人到达终点会减少1点生命值
-- 生命值为0时游戏结束
-- 完成10波敌人攻击游戏胜利
+## Game Rules
 
-## 技术实现
+- **Initial Health**: 10 for Level 1, 8 for Level 2
+- **Initial Gold**: 100 for Level 1, 120 for Level 2
+- **Enemies per Wave**: Wave number × 3
+- **Enemy Speed**: 0.8x for Level 1, 0.9x for Level 2
+- **Enemy Reaches End**: Reduces health by 1
+- **Health = 0**: Game Over
+- **Complete 10 Waves**: Game Win
 
-- 前端：HTML5, CSS3, JavaScript
-- 后端（可选）：Node.js, Express, Socket.io
+## Level Information
 
-## 项目结构
+### Level 1
+- **Path**: 12 points with multiple turns and twists
+- **Initial Health**: 10
+- **Initial Gold**: 100
+- **Enemy Speed**: 0.8x (slower)
+- **Difficulty**: Moderate, suitable for beginners
 
-- `index.html` - 游戏主页面
-- `game.js` - 游戏核心逻辑
-- `server.js` - Node.js后端服务器（可选）
-- `package.json` - 项目配置和依赖
+### Level 2
+- **Path**: 11 points with different layout and direction
+- **Initial Health**: 8 (more challenging)
+- **Initial Gold**: 120 (more strategy options)
+- **Enemy Speed**: 0.9x (faster)
+- **Difficulty**: Higher, suitable for experienced players
+
+## Technical Implementation
+
+- **Frontend**: HTML5, CSS3, JavaScript
+- **Backend** (Optional): Node.js, Express, Socket.io
+- **Code Size**: Approximately 1100 lines
+
+## Project Structure
