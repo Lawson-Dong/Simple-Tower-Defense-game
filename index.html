@@ -116,6 +116,157 @@
             height: 8px;
             background-color: #ff0;
             border-radius: 50%;
+            box-shadow: 0 0 10px #ff0, 0 0 20px #ff0;
+            animation: projectileMove 0.5s linear infinite;
+        }
+        
+        @keyframes projectileMove {
+            0% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0.7; transform: scale(1.2); }
+        }
+        
+        .tower {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background-color: #ff6347;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 0 15px rgba(255, 99, 71, 0.7);
+            transition: all 0.3s ease;
+        }
+        
+        .tower:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(255, 99, 71, 1);
+        }
+        
+        .tower.firing {
+            animation: towerFiring 0.5s ease-out;
+        }
+        
+        .tower.selected {
+            box-shadow: 0 0 20px rgba(255, 255, 0, 0.8) !important;
+            border: 2px solid yellow;
+        }
+        
+        @keyframes towerFiring {
+            0% { transform: scale(1); box-shadow: 0 0 15px rgba(255, 99, 71, 0.7); }
+            50% { transform: scale(1.1); box-shadow: 0 0 25px rgba(255, 215, 0, 1); }
+            100% { transform: scale(1); box-shadow: 0 0 15px rgba(255, 99, 71, 0.7); }
+        }
+        
+        .track {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background-color: #666;
+            border: 2px solid #333;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 8;
+            transition: all 0.2s ease;
+            font-size: 16px;
+        }
+        
+        .track:hover {
+            background-color: #888;
+            transform: scale(1.05);
+        }
+        
+        .range-indicator {
+            position: absolute;
+            border-radius: 50%;
+            border: 2px dashed;
+            pointer-events: none;
+            z-index: 7;
+            transition: all 0.2s ease;
+        }
+        
+        .energy-display {
+            position: absolute;
+            bottom: 2px;
+            left: 2px;
+            right: 2px;
+            height: 10px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 2px;
+            font-size: 8px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+        
+        .enemy {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-color: #800080;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 0 10px rgba(128, 0, 128, 0.7);
+            transition: all 0.2s ease;
+        }
+        
+        .enemy.hit {
+            animation: enemyHit 0.3s ease-out;
+        }
+        
+        @keyframes enemyHit {
+            0% { transform: scale(1); background-color: #800080; }
+            50% { transform: scale(1.2); background-color: #ff4500; }
+            100% { transform: scale(1); background-color: #800080; }
+        }
+        
+        .enemy.slowed {
+            background-color: #9370db !important;
+            box-shadow: 0 0 15px rgba(147, 112, 219, 0.7);
+            animation: enemySlow 0.5s ease-out;
+        }
+        
+        @keyframes enemySlow {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .enemy.death {
+            animation: enemyDeath 0.5s ease-out forwards;
+        }
+        
+        @keyframes enemyDeath {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(2); opacity: 0; }
+        }
+        
+        .explosion {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background-color: #ff4500;
+            border-radius: 50%;
+            animation: explosion 0.5s ease-out forwards;
+            z-index: 10;
+        }
+        
+        @keyframes explosion {
+            0% { transform: scale(0); opacity: 1; }
+            50% { transform: scale(1.5); opacity: 0.7; }
+            100% { transform: scale(2); opacity: 0; }
         }
         
         .path {
@@ -181,15 +332,37 @@
         .level-btn {
             margin: 0 10px;
         }
+        
+        .tower.heal {
+            animation: towerHeal 0.2s ease-in-out;
+        }
+        
+        .tower.converted {
+            animation: towerConverted 1s ease-in-out;
+        }
+        
+        @keyframes towerHeal {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); filter: brightness(1.5) hue-rotate(90deg); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes towerConverted {
+            0% { transform: scale(1); filter: hue-rotate(0deg); }
+            50% { transform: scale(1.3); filter: hue-rotate(180deg); }
+            100% { transform: scale(1); filter: hue-rotate(180deg); }
+        }
     </style>
 </head>
 <body>
     <h1>Tower Defense Game</h1>
     <div class="level-selection">
-        <h3>选择关卡</h3>
-        <button class="btn level-btn" data-level="0">关卡 1</button>
-        <button class="btn level-btn" data-level="1">关卡 2</button>
-    </div>
+            <h3>选择关卡</h3>
+            <button class="btn level-btn" data-level="0">关卡 1</button>
+            <button class="btn level-btn" data-level="1">关卡 2</button>
+            <button class="btn level-btn" data-level="2">关卡 3</button>
+            <button class="btn level-btn" data-level="3">关卡 4</button>
+        </div>
     <div class="game-container">
         <div class="game-board" id="gameBoard">
             <div class="start-point" style="top: 100px; left: 50px;">Start</div>
@@ -198,28 +371,40 @@
         <div class="game-info">
             <div class="wave-info">
                 <h3>Wave: <span id="waveCount">1</span></h3>
-                <h3>Enemies: <span id="enemyCount">0</span></h3>
+                <h3>Remaining Enemies: <span id="enemyCount">0</span></h3>
+                <div class="loading-message" id="loadingMessage"></div>
                 <h3>Health: <span id="health">10</span></h3>
                 <h3>Gold: <span id="gold">100</span></h3>
             </div>
             <div class="tower-info">
                 <h3>Towers</h3>
                 <div class="tower-selection">
-                    <div class="tower-btn" data-type="basic" data-cost="50">
-                        <span>Basic</span>
-                        <span>50G</span>
+                    <div class="tower-btn" data-type="machinegun" data-cost="80" draggable="true">
+                        <span>Machine Gun</span>
+                        <span>80G</span>
                     </div>
-                    <div class="tower-btn" data-type="fast" data-cost="100">
-                        <span>Fast</span>
+                    <div class="tower-btn" data-type="cannon" data-cost="150" draggable="true">
+                        <span>Cannon</span>
+                        <span>150G</span>
+                    </div>
+                    <div class="tower-btn" data-type="slowgun" data-cost="100" draggable="true">
+                        <span>Slow Gun</span>
                         <span>100G</span>
                     </div>
-                    <div class="tower-btn" data-type="strong" data-cost="150">
-                        <span>Strong</span>
-                        <span>150G</span>
+                    <div class="tower-btn" data-type="walkercannon" data-cost="200" draggable="true">
+                        <span>Walker Cannon</span>
+                        <span>200G</span>
+                    </div>
+                    <div class="tower-btn" data-type="therapy" data-cost="120" draggable="true">
+                        <span>Therapy Tower</span>
+                        <span>120G</span>
                     </div>
                 </div>
             </div>
-            <button class="btn" id="startWave">Start Wave</button>
+            <div class="game-controls">
+                <button class="btn" id="startButton">Start</button>
+            </div>
+
         </div>
     </div>
     
